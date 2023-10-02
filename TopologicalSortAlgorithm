@@ -1,0 +1,39 @@
+class Solution {
+  constructor() {
+    this.dfs = this.dfs.bind(this);
+  }
+
+  dfs(node, vis, st, adj) {
+    vis[node] = 1;
+    for (const it of adj[node]) {
+      if (!vis[it]) this.dfs(it, vis, st, adj);
+    }
+    st.push(node);
+  }
+
+  // Function to return a list containing vertices in Topological order.
+  topoSort(V, adj) {
+    const vis = new Array(V).fill(0);
+    const st = [];
+    for (let i = 0; i < V; i++) {
+      if (!vis[i]) {
+        this.dfs(i, vis, st, adj);
+      }
+    }
+
+    const ans = [];
+    while (st.length > 0) {
+      ans.push(st.pop());
+    }
+    return ans;
+  }
+}
+
+const adj = [[], [], [3], [1], [0, 1], [0, 2]];
+const V = 6;
+const obj = new Solution();
+const ans = obj.topoSort(V, adj);
+
+for (const node of ans) {
+  console.log(node + " ");
+}
